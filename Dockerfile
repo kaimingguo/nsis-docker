@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM python:3-slim
+FROM python:3-slim as builder
 
 ARG NSIS_VERSION=3.08.1
 ARG NSIS_NUM=7336-1
@@ -21,5 +21,8 @@ RUN wget -O trunk.zip https://sourceforge.net/projects/nsisbi/files/nsisbi${NSIS
 RUN unzip trunk.zip
 WORKDIR /app/nsis-code-${NSIS_NUM}-NSIS-trunk
 
-RUN XGCC_W32_PREFIX=i686-w64-mingw32- scons PREFIX=/opt/nsis ZLIB_W32=/usr/i686-w64-mingw32 install
-CMD ["/opt/nsis/bin/makensis"]
+RUN XGCC_W32_PREFIX=i686-w64-mingw32- scons PREFIX=/opt ZLIB_W32=/usr/i686-w64-mingw32 install
+
+FROM debian:12-slim
+COPY --from=builder /opt /opt
+CMD ["/opt/bin/makensis"]
