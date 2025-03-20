@@ -1,8 +1,8 @@
 # syntax=docker/dockerfile:1
 FROM python:3-slim AS builder
 
-ARG NSIS_VERSION=3.08.1 \
-    NSIS_NUM=7336-1
+ARG NSIS_VERSION=3.10.3 \
+    NSIS_NUM=7423-3
 
 # To enable logging
 ENV PYTHONUNBUFFERED=1
