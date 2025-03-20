@@ -22,6 +22,10 @@ RUN wget -O trunk.zip https://sourceforge.net/projects/nsisbi/files/nsisbi${NSIS
 WORKDIR /app/nsis-code-${NSIS_NUM}-NSIS-trunk
 RUN XGCC_W32_PREFIX=i686-w64-mingw32- scons PREFIX=/opt ZLIB_W32=/usr/i686-w64-mingw32 install
 
+COPY Plugins/amd64-unicode /opt/share/nsis/Plugins/
+COPY Plugins/x86-ansi/*.dll /opt/share/nsis/Plugins/x86-ansi/
+COPY Plugins/x86-unicode/*.dll /opt/share/nsis/Plugins/x86-unicode/
+
 FROM debian:bookworm-slim
 COPY --from=builder /opt /opt
 WORKDIR /app
